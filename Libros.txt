@@ -1,0 +1,4 @@
+For those interested in data visualization and dashboard
+design, we highly recommend Stephen Few's book
+Information Dashboard Design, (First Edition), O'Reilly Media,
+ISBN: 0596100162.
