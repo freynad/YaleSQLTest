@@ -1,0 +1,324 @@
+/*
+   FERNANDO REYNA DUQUE - SOFTTEK
+   YALE SQL TEST
+   
+   INSTRUCTIONS:  PLEASE FIND THE SQL THAT SOLVES THE TEST.
+                  SCHEMA CREATION DDL AND SELECT SQL STATEMENTES FOR EACH PROBLEM ARE PROVIDED
+   
+   THESE SOLUTIONS WERE TESTED USING SQL FIDDLE ...
+
+   http://sqlfiddle.com/
+   
+   ... WHERE ONE CAN CREATE A TEMPORARY MS SQL SERVER 2017 SCHEMA AND THEN RUN SQL AGAINST IT
+*/
+
+/* ------------------------------------------------------------------------------------------------
+   MS SQL SERVER 2017 DDL
+   ------------------------------------------------------------------------------------------------ */
+
+CREATE TABLE person (
+    person_id             NUMERIC(10)    PRIMARY KEY NOT NULL,
+    first_name            VARCHAR(100),
+    preferred_first_name  VARCHAR(100),
+    last_name             VARCHAR(100) NOT NULL,
+    date_of_birth         DATE,
+    hire_date             DATE,
+    occupation            VARCHAR(1)
+);
+
+INSERT INTO person VALUES ( 1, 'Sally', NULL, 'Evans', '19820507', '20180310', 'E' );
+INSERT INTO person VALUES ( 2, 'Samantha', NULL, 'White', '19880711', '20201122', NULL );
+INSERT INTO person VALUES ( 3, 'Josh Richard', 'Rick', 'Ryan', '19700828', '20120414', 'B' );
+INSERT INTO person VALUES ( 4, 'Belinda Ann', 'Belinda', 'Williams', '19771007', '20190901', 'M' );
+INSERT INTO person VALUES ( 5, 'Timothy', 'Tim', 'Smith', '19931007', '20210201', NULL );
+INSERT INTO person VALUES ( 6, 'Cynthia', NULL, 'Salazar', '19910930', '20170516', 'R' );
+
+
+CREATE TABLE address (
+    address_id            NUMERIC(10)    PRIMARY KEY NOT NULL,
+    person_id             NUMERIC(10)    NOT NULL,
+    address_type          VARCHAR(4)     NOT NULL,
+    street_line_1         VARCHAR(100),
+    city                  VARCHAR(100),
+    state                 VARCHAR(100),
+    zip_code              VARCHAR(30),
+    FOREIGN KEY(person_id) REFERENCES person(person_id)
+);
+
+INSERT INTO address VALUES ( 1, 1, 'HOME', '56 Oak Av.', 'Irvine', 'CA', '92606' );
+INSERT INTO address VALUES ( 2, 1, 'BILL', '108 Bird St.', 'Irvine', 'CA', '92620' );
+INSERT INTO address VALUES ( 3, 2, 'HOME', '12 Morrison St.', 'Burbank', 'CA', '93880' );
+INSERT INTO address VALUES ( 4, 3, 'BILL', '1310 Happiness Av.', 'Aurora', 'CO', '60890' );
+INSERT INTO address VALUES ( 5, 4, 'HOME', '77 Grand Piano St.', 'Fernandina Beach', 'FL', '93880' );
+INSERT INTO address VALUES ( 6, 5, 'HOME', '334 Oil Industry St.', 'Bristol', 'CT', '10905' );
+INSERT INTO address VALUES ( 7, 5, 'BILL', '401 Merlot St.', 'Middletown', 'CT', '09041' );
+
+
+
+/* ==================================== PROBLEMS AND SOLUTIONS ==================================== */
+
+
+/* ------------------------------------------------------------------------------------------------
+   1) Write a query to select all rows from person.
+   If the person row has a value in preferred_first_name,
+   select the preferred name instead of the value in first name.
+   Alias the column as REPORTING_NAME.
+   ------------------------------------------------------------------------------------------------ */
+
+SELECT
+  CONCAT( ISNULL( preferred_first_name, first_name ), ' ', last_name ) AS REPORTING_NAME
+FROM
+  person
+;
+
+/*
+  1) OUTPUT
+  =========
+
+	    REPORTING_NAME  
+	 ------------------ 
+	       Sally Evans  
+	    Samantha White  
+	         Rick Ryan  
+	  Belinda Williams  
+	         Tim Smith  
+	   Cynthia Salazar  
+
+*/
+
+
+/* ------------------------------------------------------------------------------------------------
+   2) Write a query to select all rows from person that have a NULL occupation.  
+   ------------------------------------------------------------------------------------------------ */
+
+SELECT * 
+FROM person 
+WHERE occupation IS NULL;
+
+/*
+  2) OUTPUT
+  =========
+
+	  person_id   first_name   preferred_first_name   last_name   date_of_birth    hire_date   occupation  
+	 ----------- ------------ ---------------------- ----------- --------------- ------------ ------------ 
+	          2     Samantha                   NULL       White      1988-07-11   2020-11-22         NULL  
+	          5      Timothy                    Tim       Smith      1993-10-07   2021-02-01         NULL  
+
+*/
+
+
+/* ------------------------------------------------------------------------------------------------
+   3) Write a query to select all rows from person that have a date_of_birth
+      before August 7th, 1990. 
+   ------------------------------------------------------------------------------------------------ */
+
+SELECT * 
+FROM person 
+WHERE date_of_birth <= '19900807';
+
+/*
+  3) OUTPUT
+  =========
+
+	  person_id     first_name   preferred_first_name   last_name   date_of_birth    hire_date   occupation  
+	 ----------- -------------- ---------------------- ----------- --------------- ------------ ------------ 
+	          1          Sally                   NULL       Evans      1982-05-07   2018-03-10            E  
+	          2       Samantha                   NULL       White      1988-07-11   2020-11-22         NULL  
+	          3   Josh Richard                   Rick        Ryan      1970-08-28   2012-04-14            B  
+	          4    Belinda Ann                Belinda    Williams      1977-10-07   2019-09-01            M  
+
+*/
+
+
+/* ------------------------------------------------------------------------------------------------
+   4) Write a query to select all rows from person that have a hire_date in the past 100 days.
+   ------------------------------------------------------------------------------------------------ */
+   
+SELECT *
+FROM person
+WHERE DATEDIFF( DAY, hire_date, GETDATE() ) <= 100;
+   
+/*
+  4) OUTPUT
+  =========
+
+	  person_id   first_name   preferred_first_name   last_name   date_of_birth    hire_date   occupation  
+	 ----------- ------------ ---------------------- ----------- --------------- ------------ ------------ 
+	          2     Samantha                   NULL       White      1988-07-11   2020-11-22         NULL  
+	          5      Timothy                    Tim       Smith      1993-10-07   2021-02-01         NULL  
+
+*/
+
+
+/* ------------------------------------------------------------------------------------------------
+   5) Write a query to select rows from person that also have a row in address
+      with address_type = 'HOME'.
+   ------------------------------------------------------------------------------------------------ */
+
+SELECT p.* 
+FROM
+  person AS p
+  INNER JOIN address a ON a.person_id = p.person_id
+WHERE 
+  a.address_type = 'HOME';
+
+/*
+  5) OUTPUT
+  =========
+
+	  person_id    first_name   preferred_first_name   last_name   date_of_birth    hire_date   occupation  
+	 ----------- ------------- ---------------------- ----------- --------------- ------------ ------------ 
+	          1         Sally                   NULL       Evans      1982-05-07   2018-03-10            E  
+	          2      Samantha                   NULL       White      1988-07-11   2020-11-22         NULL  
+	          4   Belinda Ann                Belinda    Williams      1977-10-07   2019-09-01            M  
+	          5       Timothy                    Tim       Smith      1993-10-07   2021-02-01         NULL  
+
+*/
+
+
+/* ------------------------------------------------------------------------------------------------
+   6) Write a query to select all rows from person and only those rows from address
+      that have a matching billing address (address_type = 'BILL').  If a matching
+	  billing address does not exist, display 'NONE' in the address_type column.
+   ------------------------------------------------------------------------------------------------ */
+
+SELECT
+  CONCAT( ISNULL( p.preferred_first_name, p.first_name ), ' ', p.last_name ) AS reporting_name,
+  ISNULL( a.street_line_1, 'NONE' ) AS bill_addr_street,
+  ISNULL( a.city, 'NONE' ) AS bill_addr_city,
+  ISNULL( a.state, 'NONE' ) AS bill_addr_state,
+  ISNULL( a.zip_code, 'NONE' ) AS bill_addr_zip_code
+FROM
+  person AS p
+  LEFT JOIN address a ON a.person_id = p.person_id AND a.address_type = 'BILL';
+
+ 
+/*
+  6) OUTPUT
+  =========
+
+	    reporting_name     bill_addr_street   bill_addr_city   bill_addr_state   bill_addr_zip_code  
+	 ------------------ -------------------- ---------------- ----------------- -------------------- 
+	       Sally Evans         108 Bird St.           Irvine                CA                92620  
+	    Samantha White                 NONE             NONE              NONE                 NONE  
+	         Rick Ryan   1310 Happiness Av.           Aurora                CO                60890  
+	  Belinda Williams                 NONE             NONE              NONE                 NONE  
+	         Tim Smith       401 Merlot St.       Middletown                CT                09041  
+	   Cynthia Salazar                 NONE             NONE              NONE                 NONE  
+
+*/
+
+
+/* ------------------------------------------------------------------------------------------------
+   7) Write a query to count the number of addresses per address type
+	Output:
+
+	address_type     count
+    -------------   ------
+    HOME                99
+    BILL               150
+   ------------------------------------------------------------------------------------------------ */
+
+SELECT
+  address_type,
+  COUNT(*) AS count
+FROM
+  address
+GROUP BY
+  address_type
+
+/*
+  7) OUTPUT
+  =========
+  
+    address_type   count  
+    ------------   -----  
+            BILL       3  
+            HOME  	   4  
+  
+*/
+
+
+/* ------------------------------------------------------------------------------------------------
+   8) Write a query to select data in the following format:
+
+	last_name           home_address                          billing_address
+	------------------  ------------------------------------  ---------------------------------------
+	Smith               89 Lyon Circle, Clifton, VA 12345     25 Science Park, New Haven, CT 06511
+	Jones               212 Maple Ave, Manassas, VA 22033     275 Winchester Ave, New Haven, CT 06511
+
+   ------------------------------------------------------------------------------------------------ */
+
+SELECT
+  p.last_name,
+  CASE 
+    WHEN h_addr.address_id IS NULL THEN 'NONE'
+	ELSE 
+      ISNULL( h_addr.street_line_1, '(Street N/A)' ) + ', ' +
+	  ISNULL( h_addr.city, '(City N/A)' ) + ', ' +
+	  ISNULL( h_addr.state, '(State N/A)' ) + ' ' +
+	  ISNULL( h_addr.zip_code, '(Zip Code N/A)' )
+    END	AS home_address,
+  CASE 
+    WHEN b_addr.address_id IS NULL THEN 'NONE'
+	ELSE 
+      ISNULL( b_addr.street_line_1, '(Street N/A)' ) + ', ' +
+	  ISNULL( b_addr.city, '(City N/A)' ) + ', ' +
+	  ISNULL( b_addr.state, '(State N/A)' ) + ' ' +
+	  ISNULL( b_addr.zip_code, '(Zip Code N/A)' )
+    END	AS billing_address
+FROM
+  person AS p
+  LEFT JOIN address h_addr ON h_addr.person_id = p.person_id AND h_addr.address_type = 'HOME'
+  LEFT JOIN address b_addr ON b_addr.person_id = p.person_id AND b_addr.address_type = 'BILL';
+
+/*
+  8) OUTPUT
+  =========
+
+  last_name                                      home_address                             billing_address
+  ---------    ----------------------------------------------    ----------------------------------------
+  Evans                          56 Oak Av., Irvine, CA 92606              108 Bird St., Irvine, CA 92620
+  White                    12 Morrison St., Burbank, CA 93880                                        NONE
+  Ryan                                                   NONE        1310 Happiness Av., Aurora, CO 60890
+  Williams     77 Grand Piano St., Fernandina Beach, FL 93880                                        NONE
+  Smith               334 Oil Industry St., Bristol, CT 10905        401 Merlot St., Middletown, CT 09041
+  Salazar                                                NONE                                        NONE  
+  
+*/
+
+
+/* ------------------------------------------------------------------------------------------------
+   9) Write a query to update the person.occupation column to ‘X’ for all rows
+      that have a ‘BILL’ address in the address table.
+   ------------------------------------------------------------------------------------------------ */
+   
+UPDATE 
+  p
+SET	
+  occupation = 'X'
+FROM
+  person p
+  JOIN address a ON a.person_id = p.person_id
+WHERE
+  a.address_type = 'BILL';
+  
+/*
+  9) OUTPUT
+  =========
+  
+  3 rows updated
+
+  -- Validate updated rows
+  SELECT person_id, occupation FROM person;
+  
+  person_id	  occupation
+  ---------   ----------
+          1            X
+          2         NULL
+          3            X
+          4	           M
+          5	           X
+          6            R
+    
+*/
