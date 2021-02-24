@@ -75,34 +75,34 @@ FROM
   1) OUTPUT
   =========
 
-	    REPORTING_NAME  
-	 ------------------ 
-	       Sally Evans  
-	    Samantha White  
-	         Rick Ryan  
-	  Belinda Williams  
-	         Tim Smith  
-	   Cynthia Salazar  
+     REPORTING_NAME
+  ------------------
+        Sally Evans
+     Samantha White
+          Rick Ryan
+   Belinda Williams
+          Tim Smith
+    Cynthia Salazar
 
 */
 
 
 /* ------------------------------------------------------------------------------------------------
-   2) Write a query to select all rows from person that have a NULL occupation.  
+   2) Write a query to select all rows from person that have a NULL occupation.
    ------------------------------------------------------------------------------------------------ */
 
-SELECT * 
-FROM person 
+SELECT *
+FROM person
 WHERE occupation IS NULL;
 
 /*
   2) OUTPUT
   =========
 
-	  person_id   first_name   preferred_first_name   last_name   date_of_birth    hire_date   occupation  
-	 ----------- ------------ ---------------------- ----------- --------------- ------------ ------------ 
-	          2     Samantha                   NULL       White      1988-07-11   2020-11-22         NULL  
-	          5      Timothy                    Tim       Smith      1993-10-07   2021-02-01         NULL  
+   person_id   first_name   preferred_first_name   last_name   date_of_birth    hire_date   occupation
+  ----------- ------------ ---------------------- ----------- --------------- ------------ ------------
+           2     Samantha                   NULL       White      1988-07-11   2020-11-22         NULL
+           5      Timothy                    Tim       Smith      1993-10-07   2021-02-01         NULL
 
 */
 
@@ -120,12 +120,12 @@ WHERE date_of_birth <= '19900807';
   3) OUTPUT
   =========
 
-	  person_id     first_name   preferred_first_name   last_name   date_of_birth    hire_date   occupation  
-	 ----------- -------------- ---------------------- ----------- --------------- ------------ ------------ 
-	          1          Sally                   NULL       Evans      1982-05-07   2018-03-10            E  
-	          2       Samantha                   NULL       White      1988-07-11   2020-11-22         NULL  
-	          3   Josh Richard                   Rick        Ryan      1970-08-28   2012-04-14            B  
-	          4    Belinda Ann                Belinda    Williams      1977-10-07   2019-09-01            M  
+   person_id     first_name   preferred_first_name   last_name   date_of_birth    hire_date   occupation  
+  ----------- -------------- ---------------------- ----------- --------------- ------------ ------------ 
+           1          Sally                   NULL       Evans      1982-05-07   2018-03-10            E  
+           2       Samantha                   NULL       White      1988-07-11   2020-11-22         NULL  
+           3   Josh Richard                   Rick        Ryan      1970-08-28   2012-04-14            B  
+           4    Belinda Ann                Belinda    Williams      1977-10-07   2019-09-01            M  
 
 */
 
@@ -142,10 +142,10 @@ WHERE DATEDIFF( DAY, hire_date, GETDATE() ) <= 100;
   4) OUTPUT
   =========
 
-	  person_id   first_name   preferred_first_name   last_name   date_of_birth    hire_date   occupation  
-	 ----------- ------------ ---------------------- ----------- --------------- ------------ ------------ 
-	          2     Samantha                   NULL       White      1988-07-11   2020-11-22         NULL  
-	          5      Timothy                    Tim       Smith      1993-10-07   2021-02-01         NULL  
+   person_id   first_name   preferred_first_name   last_name   date_of_birth    hire_date   occupation  
+  ----------- ------------ ---------------------- ----------- --------------- ------------ ------------ 
+           2     Samantha                   NULL       White      1988-07-11   2020-11-22         NULL  
+           5      Timothy                    Tim       Smith      1993-10-07   2021-02-01         NULL  
 
 */
 
@@ -166,12 +166,12 @@ WHERE
   5) OUTPUT
   =========
 
-	  person_id    first_name   preferred_first_name   last_name   date_of_birth    hire_date   occupation  
-	 ----------- ------------- ---------------------- ----------- --------------- ------------ ------------ 
-	          1         Sally                   NULL       Evans      1982-05-07   2018-03-10            E  
-	          2      Samantha                   NULL       White      1988-07-11   2020-11-22         NULL  
-	          4   Belinda Ann                Belinda    Williams      1977-10-07   2019-09-01            M  
-	          5       Timothy                    Tim       Smith      1993-10-07   2021-02-01         NULL  
+   person_id    first_name   preferred_first_name   last_name   date_of_birth    hire_date   occupation  
+  ----------- ------------- ---------------------- ----------- --------------- ------------ ------------ 
+           1         Sally                   NULL       Evans      1982-05-07   2018-03-10            E  
+           2      Samantha                   NULL       White      1988-07-11   2020-11-22         NULL  
+           4   Belinda Ann                Belinda    Williams      1977-10-07   2019-09-01            M  
+           5       Timothy                    Tim       Smith      1993-10-07   2021-02-01         NULL  
 
 */
 
@@ -179,7 +179,7 @@ WHERE
 /* ------------------------------------------------------------------------------------------------
    6) Write a query to select all rows from person and only those rows from address
       that have a matching billing address (address_type = 'BILL').  If a matching
-	  billing address does not exist, display 'NONE' in the address_type column.
+   billing address does not exist, display 'NONE' in the address_type column.
    ------------------------------------------------------------------------------------------------ */
 
 SELECT
@@ -197,26 +197,26 @@ FROM
   6) OUTPUT
   =========
 
-	    reporting_name     bill_addr_street   bill_addr_city   bill_addr_state   bill_addr_zip_code  
-	 ------------------ -------------------- ---------------- ----------------- -------------------- 
-	       Sally Evans         108 Bird St.           Irvine                CA                92620  
-	    Samantha White                 NONE             NONE              NONE                 NONE  
-	         Rick Ryan   1310 Happiness Av.           Aurora                CO                60890  
-	  Belinda Williams                 NONE             NONE              NONE                 NONE  
-	         Tim Smith       401 Merlot St.       Middletown                CT                09041  
-	   Cynthia Salazar                 NONE             NONE              NONE                 NONE  
+     reporting_name     bill_addr_street   bill_addr_city   bill_addr_state   bill_addr_zip_code  
+  ------------------ -------------------- ---------------- ----------------- -------------------- 
+        Sally Evans         108 Bird St.           Irvine                CA                92620  
+     Samantha White                 NONE             NONE              NONE                 NONE  
+          Rick Ryan   1310 Happiness Av.           Aurora                CO                60890  
+   Belinda Williams                 NONE             NONE              NONE                 NONE  
+          Tim Smith       401 Merlot St.       Middletown                CT                09041  
+    Cynthia Salazar                 NONE             NONE              NONE                 NONE  
 
 */
 
 
 /* ------------------------------------------------------------------------------------------------
    7) Write a query to count the number of addresses per address type
-	Output:
+      Output:
 
-	address_type     count
-    -------------   ------
-    HOME                99
-    BILL               150
+      address_type     count
+      -------------   ------
+      HOME                99
+      BILL               150
    ------------------------------------------------------------------------------------------------ */
 
 SELECT
@@ -230,22 +230,22 @@ GROUP BY
 /*
   7) OUTPUT
   =========
-  
+
     address_type   count  
     ------------   -----  
             BILL       3  
-            HOME  	   4  
-  
+            HOME       4  
+
 */
 
 
 /* ------------------------------------------------------------------------------------------------
    8) Write a query to select data in the following format:
 
-	last_name           home_address                          billing_address
-	------------------  ------------------------------------  ---------------------------------------
-	Smith               89 Lyon Circle, Clifton, VA 12345     25 Science Park, New Haven, CT 06511
-	Jones               212 Maple Ave, Manassas, VA 22033     275 Winchester Ave, New Haven, CT 06511
+ last_name           home_address                          billing_address
+ ------------------  ------------------------------------  ---------------------------------------
+ Smith               89 Lyon Circle, Clifton, VA 12345     25 Science Park, New Haven, CT 06511
+ Jones               212 Maple Ave, Manassas, VA 22033     275 Winchester Ave, New Haven, CT 06511
 
    ------------------------------------------------------------------------------------------------ */
 
@@ -253,20 +253,20 @@ SELECT
   p.last_name,
   CASE 
     WHEN h_addr.address_id IS NULL THEN 'NONE'
-	ELSE 
+ ELSE 
       ISNULL( h_addr.street_line_1, '(Street N/A)' ) + ', ' +
-	  ISNULL( h_addr.city, '(City N/A)' ) + ', ' +
-	  ISNULL( h_addr.state, '(State N/A)' ) + ' ' +
-	  ISNULL( h_addr.zip_code, '(Zip Code N/A)' )
-    END	AS home_address,
+   ISNULL( h_addr.city, '(City N/A)' ) + ', ' +
+   ISNULL( h_addr.state, '(State N/A)' ) + ' ' +
+   ISNULL( h_addr.zip_code, '(Zip Code N/A)' )
+    END AS home_address,
   CASE 
     WHEN b_addr.address_id IS NULL THEN 'NONE'
-	ELSE 
+ ELSE 
       ISNULL( b_addr.street_line_1, '(Street N/A)' ) + ', ' +
-	  ISNULL( b_addr.city, '(City N/A)' ) + ', ' +
-	  ISNULL( b_addr.state, '(State N/A)' ) + ' ' +
-	  ISNULL( b_addr.zip_code, '(Zip Code N/A)' )
-    END	AS billing_address
+   ISNULL( b_addr.city, '(City N/A)' ) + ', ' +
+   ISNULL( b_addr.state, '(State N/A)' ) + ' ' +
+   ISNULL( b_addr.zip_code, '(Zip Code N/A)' )
+    END AS billing_address
 FROM
   person AS p
   LEFT JOIN address h_addr ON h_addr.person_id = p.person_id AND h_addr.address_type = 'HOME'
@@ -292,33 +292,33 @@ FROM
    9) Write a query to update the person.occupation column to ‘X’ for all rows
       that have a ‘BILL’ address in the address table.
    ------------------------------------------------------------------------------------------------ */
-   
-UPDATE 
+
+UPDATE
   p
-SET	
+SET 
   occupation = 'X'
 FROM
   person p
   JOIN address a ON a.person_id = p.person_id
 WHERE
   a.address_type = 'BILL';
-  
+
 /*
   9) OUTPUT
   =========
-  
+
   3 rows updated
 
   -- Validate updated rows
   SELECT person_id, occupation FROM person;
-  
-  person_id	  occupation
+
+  person_id   occupation
   ---------   ----------
           1            X
           2         NULL
           3            X
-          4	           M
-          5	           X
+          4            M
+          5            X
           6            R
     
 */
